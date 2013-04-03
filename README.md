@@ -9,27 +9,27 @@ This API is still under development and it needs lots of cleanup. When the code 
 
 ## Functionality
 
-| Command | Implemented | Note |
-| ------------- |:-------------:|
-| torrent-start      | <span style="color: green">YES</span> |
-| torrent-start-now      | <span style="color: green">YES</span> |
-| torrent-stop | <span style="color: green">YES</span> |
-| torrent-verify | <span style="color: green">YES</span> |
-| torrent-reannounce | <span style="color: green">YES</span> |
-| torrent-set | <span style="color: red">NO</span> |
-| torrent-get | <span style="color: orange">PARTIALLY</span> | Only by number ids, not by hashes |
-| torrent-add | <span style="color: orange">PARTIALLY</span> | You can only specify a url or torrent location and the download dir |
-| torrent-remove | <span style="color: red">NO</span> |
-| torrent-set-location | <span style="color: red">NO</span> |
-| torrent-rename-path | <span style="color: red">NO</span> |
-| session-set | <span style="color: red">NO</span> |
-| session-get | <span style="color: red">NO</span> |
-| session-stats | <span style="color: green">YES</span> |
-| blocklist-update | <span style="color: red">NO</span> |
-| port-test | <span style="color: red">NO</span> |
-| session-close | <span style="color: red">NO</span> |
-| queue-move-top | <span style="color: red">NO</span> |
-| queue-move-up | <span style="color: red">NO</span> |
-| queue-move-down | <span style="color: red">NO</span> |
-| queue-move-bottom | <span style="color: red">NO</span> |
-| free-space | <span style="color: red">NO</span> |
+| Command              | Implemented                                  |
+| -------------------- |:--------------------------------------------:|
+| torrent-start        | <span style="color: green">YES</span>        |
+| torrent-start-now    | <span style="color: green">YES</span>        |
+| torrent-stop         | <span style="color: green">YES</span>        |
+| torrent-verify       | <span style="color: green">YES</span>        |
+| torrent-reannounce   | <span style="color: green">YES</span>        |
+| torrent-set          | <span style="color: red">NO</span>           |
+| torrent-get          | <span style="color: orange">PARTIALLY</span> |
+| torrent-add          | <span style="color: orange">PARTIALLY</span> |
+| torrent-remove       | <span style="color: red">NO</span>           |
+| torrent-set-location | <span style="color: red">NO</span>           |
+| torrent-rename-path  | <span style="color: red">NO</span>           |
+| session-set          | <span style="color: red">NO</span>           |
+| session-get          | <span style="color: red">NO</span>           |
+| session-stats        | <span style="color: green">YES</span>        |
+| blocklist-update     | <span style="color: red">NO</span>           |
+| port-test            | <span style="color: red">NO</span>           |
+| session-close        | <span style="color: red">NO</span>           |
+| queue-move-top       | <span style="color: red">NO</span>           |
+| queue-move-up        | <span style="color: red">NO</span>           |
+| queue-move-down      | <span style="color: red">NO</span>           |
+| queue-move-bottom    | <span style="color: red">NO</span>           |
+| free-space           | <span style="color: red">NO</span>           |
