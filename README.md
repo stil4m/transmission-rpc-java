@@ -19,7 +19,7 @@ This API is still under development and it needs lots of cleanup. When the code 
 | torrent-set          | <span style="color: red">NO</span>           |
 | torrent-get          | <span style="color: orange">PARTIALLY</span> |
 | torrent-add          | <span style="color: orange">PARTIALLY</span> |
-| torrent-remove       | <span style="color: red">NO</span>           |
+| torrent-remove       | <span style="color: green">YES</span>        |
 | torrent-set-location | <span style="color: red">NO</span>           |
 | torrent-rename-path  | <span style="color: red">NO</span>           |
 | session-set          | <span style="color: red">NO</span>           |

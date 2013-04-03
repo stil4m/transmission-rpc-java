@@ -1,4 +1,4 @@
-package nl.stil4m.transmission.api.domain;
+package nl.stil4m.transmission.api.domain.ids;
 
 public class OmittedIds extends Ids {
 
@@ -8,4 +8,8 @@ public class OmittedIds extends Ids {
         return nullObject;
     }
 
+    @Override
+    public Object theObject() {
+        return nullObject;
+    }
 }

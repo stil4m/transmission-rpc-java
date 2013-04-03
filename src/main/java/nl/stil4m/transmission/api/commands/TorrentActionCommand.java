@@ -1,6 +1,6 @@
 package nl.stil4m.transmission.api.commands;
 
-import nl.stil4m.transmission.api.domain.Ids;
+import nl.stil4m.transmission.api.domain.ids.Ids;
 import nl.stil4m.transmission.api.domain.TorrentAction;
 import nl.stil4m.transmission.rpc.RpcCommand;
 

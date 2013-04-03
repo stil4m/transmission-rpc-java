@@ -6,4 +6,12 @@ public class AddedTorrentInfo {
 
     @JsonProperty("torrent-added")
     private TorrentInfo torrentAdded;
+
+    public TorrentInfo getTorrentAdded() {
+        return torrentAdded;
+    }
+
+    public void setTorrentAdded(TorrentInfo torrentAdded) {
+        this.torrentAdded = torrentAdded;
+    }
 }

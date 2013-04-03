@@ -2,11 +2,11 @@ package nl.stil4m.transmission.api;
 
 import com.google.common.collect.Lists;
 
-import nl.stil4m.transmission.api.commands.AddTorrentCommand;
-import nl.stil4m.transmission.api.commands.SessionStatsCommand;
-import nl.stil4m.transmission.api.commands.TorrentActionCommand;
-import nl.stil4m.transmission.api.commands.TorrentGetCommand;
+import nl.stil4m.transmission.api.commands.*;
 import nl.stil4m.transmission.api.domain.*;
+import nl.stil4m.transmission.api.domain.ids.Ids;
+import nl.stil4m.transmission.api.domain.ids.NumberListIds;
+import nl.stil4m.transmission.api.domain.ids.OmittedIds;
 import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcConfiguration;
 import nl.stil4m.transmission.rpc.RpcException;
@@ -78,7 +78,7 @@ public class TransmissionRpcClient extends RpcClient {
     }
 
     public TorrentActionCommand doOnTorrents(TorrentAction torrentAction, List<Long> ids) throws RpcException {
-        return doTorrentAction(torrentAction, new ListIds(Lists.newArrayList(ids)));
+        return doTorrentAction(torrentAction, new NumberListIds(Lists.newArrayList(ids)));
     }
 
     public TorrentActionCommand doOnTorrent(TorrentAction torrentAction, Long id) throws RpcException {
@@ -93,5 +93,13 @@ public class TransmissionRpcClient extends RpcClient {
         addTorrentCommand.setRequestArguments(addTorrentInfo);
         executeWithHeaders(addTorrentCommand);
         return addTorrentCommand;
+    }
+
+    public RemoveTorentCommand removeTorrent(Long id, boolean deleteData) throws RpcException {
+        RemoveTorrentInfo removeTorrentInfo = new RemoveTorrentInfo(new NumberListIds(Lists.newArrayList(id)), deleteData);
+        RemoveTorentCommand removeTorentCommand = new RemoveTorentCommand(nextTag());
+        removeTorentCommand.setRequestArguments(removeTorrentInfo);
+        executeWithHeaders(removeTorentCommand);
+        return removeTorentCommand;
     }
 }
