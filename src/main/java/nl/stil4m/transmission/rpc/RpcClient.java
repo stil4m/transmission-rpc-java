@@ -7,7 +7,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.util.HashMap;
@@ -22,10 +21,9 @@ public class RpcClient {
 
     private final TagProvider tagProvider = new TagProvider();
 
-    public RpcClient(RpcConfiguration configuration) {
+    public RpcClient(RpcConfiguration configuration, ObjectMapper objectMapper) {
         this.configuration = configuration;
-        objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+        this.objectMapper = objectMapper;
         headers = new HashMap<String, String>();
     }
 
@@ -49,7 +47,8 @@ public class RpcClient {
             RpcResponse<V> response = objectMapper.readValue(responseString, new TypeReference<RpcResponse<V>>() {
             });
             Map args = (Map) response.getArguments();
-            response.setArguments((V) objectMapper.readValue(objectMapper.writeValueAsString(args), command.getArgumentsObject()));
+            String stringValue = objectMapper.writeValueAsString(args);
+            response.setArguments((V) objectMapper.readValue(stringValue, command.getArgumentsObject()));
             command.setResponse(response);
 
             if (!"success".equals(response.getResult())) {

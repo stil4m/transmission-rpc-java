@@ -2,22 +2,26 @@ package nl.stil4m.transmission.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import nl.stil4m.transmission.api.domain.ids.Ids;
+
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TorrentGetRequestInfo {
 
-    private List<Long> ids;
+    private Ids ids;
 
     private List<String> fields;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public List<Long> getIds() {
-        return ids;
+    TorrentGetRequestInfo() {}
+
+    public TorrentGetRequestInfo(Ids ids, List<String> fields) {
+        this.ids = ids;
+        this.fields = fields;
     }
 
-    public void setIds(List<Long> ids) {
-        this.ids = ids;
+    public Object getIds() {
+        return ids.theObject();
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

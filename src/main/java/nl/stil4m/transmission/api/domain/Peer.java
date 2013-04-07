@@ -1,5 +1,7 @@
 package nl.stil4m.transmission.api.domain;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Peer {
 
     private String address;
@@ -7,10 +9,18 @@ public class Peer {
     private Boolean clientIsChoked;
     private Boolean clientIsInterested;
     private String flagStr;
+
+    @JsonProperty("isDownloadingFrom")
     private Boolean isDownloadingFrom;
+
+    @JsonProperty("isEncrypted")
     private Boolean isEncrypted;
+
+    @JsonProperty("isIncoming")
     private Boolean isIncoming;
+    @JsonProperty("isUploadingTo")
     private Boolean isUploadingTo;
+    @JsonProperty("isUTP")
     private Boolean isUTP;
     private Boolean peerIsChoked;
     private Boolean peerIsInterested;

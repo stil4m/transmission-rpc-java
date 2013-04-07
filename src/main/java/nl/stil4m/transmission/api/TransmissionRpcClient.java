@@ -3,10 +3,14 @@ package nl.stil4m.transmission.api;
 import com.google.common.collect.Lists;
 
 import nl.stil4m.transmission.api.commands.*;
-import nl.stil4m.transmission.api.domain.*;
+import nl.stil4m.transmission.api.domain.AddTorrentInfo;
+import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
+import nl.stil4m.transmission.api.domain.TorrentAction;
+import nl.stil4m.transmission.api.domain.TorrentGetRequestInfo;
 import nl.stil4m.transmission.api.domain.ids.Ids;
 import nl.stil4m.transmission.api.domain.ids.NumberListIds;
 import nl.stil4m.transmission.api.domain.ids.OmittedIds;
+import nl.stil4m.transmission.api.domain.ids.ShaListIds;
 import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcConfiguration;
 import nl.stil4m.transmission.rpc.RpcException;
@@ -15,6 +19,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,8 +31,8 @@ public class TransmissionRpcClient extends RpcClient {
     );
 
 
-    public TransmissionRpcClient(RpcConfiguration configuration) {
-        super(configuration);
+    public TransmissionRpcClient(RpcConfiguration configuration, ObjectMapper objectMapper) {
+        super(configuration, objectMapper);
 
     }
 
@@ -49,19 +54,21 @@ public class TransmissionRpcClient extends RpcClient {
         }
     }
 
-    public TorrentGetCommand getTorrentsInfo() throws RpcException {
+    public TorrentGetCommand getAllTorrentsInfo() throws RpcException {
         return getTorrentsInfo(null, torrentInfoFields);
     }
 
-    public TorrentGetCommand getTorrentInfo(Long torrentId) throws RpcException {
-        return getTorrentsInfo(Lists.newArrayList(torrentId), torrentInfoFields);
+    public TorrentGetCommand getTorrentsInfo(List<String> ids) throws RpcException {
+        return getTorrentsInfo(new ShaListIds(Lists.newArrayList(ids)), torrentInfoFields);
     }
 
-    public TorrentGetCommand getTorrentsInfo(List<Long> ids, List<String> fields) throws RpcException {
+    public TorrentGetCommand getTorrentInfo(Long torrentId) throws RpcException {
+        return getTorrentsInfo(new NumberListIds(Lists.newArrayList(torrentId)), torrentInfoFields);
+    }
+
+    public TorrentGetCommand getTorrentsInfo(Ids ids, List<String> fields) throws RpcException {
         TorrentGetCommand torrentGetCommand = new TorrentGetCommand(nextTag());
-        TorrentGetRequestInfo torrentGetRequestInfo = new TorrentGetRequestInfo();
-        torrentGetRequestInfo.setFields(fields);
-        torrentGetRequestInfo.setIds(ids);
+        TorrentGetRequestInfo torrentGetRequestInfo = new TorrentGetRequestInfo(ids, fields);
         torrentGetCommand.setRequestArguments(torrentGetRequestInfo);
         executeWithHeaders(torrentGetCommand);
         return torrentGetCommand;
@@ -94,6 +101,11 @@ public class TransmissionRpcClient extends RpcClient {
         executeWithHeaders(addTorrentCommand);
         return addTorrentCommand;
     }
+
+    public AddTorrentCommand addTorrent(String location) throws RpcException {
+        return addTorrent(null, location);
+    }
+
 
     public RemoveTorentCommand removeTorrent(Long id, boolean deleteData) throws RpcException {
         RemoveTorrentInfo removeTorrentInfo = new RemoveTorrentInfo(new NumberListIds(Lists.newArrayList(id)), deleteData);
