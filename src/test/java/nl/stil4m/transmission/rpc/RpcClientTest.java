@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import nl.stil4m.transmission.api.TransmissionRpcClient;
 import nl.stil4m.transmission.api.commands.AddTorrentCommand;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public class RpcClientTest {
     public void testSessionStats() throws RpcException {
         RpcConfiguration configuration = new RpcConfiguration();
         configuration.setHost(URI.create("http://localhost:9091/transmission/rpc"));
-        TransmissionRpcClient rpcClient = new TransmissionRpcClient(configuration);
+        TransmissionRpcClient rpcClient = new TransmissionRpcClient(configuration, new ObjectMapper());
         rpcClient.setup();
 
         File tempDir = Files.createTempDir();
