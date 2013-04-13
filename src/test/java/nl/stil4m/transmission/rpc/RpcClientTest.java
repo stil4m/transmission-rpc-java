@@ -21,7 +21,7 @@ public class RpcClientTest {
         rpcClient.setup();
 
         File tempDir = Files.createTempDir();
-        AddTorrentCommand result = rpcClient.addTorrent(tempDir.getAbsolutePath(), "magnet:?xt=urn:btih:1c3d3743dcb8f1d438d71fdc3137e0b79aaa4209&dn=The+Incredible+Burt+Wonderstone+2013+HDRip+XviD+READNFO-playXD&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80");
+//        AddTorrentCommand result = rpcClient.addTorrent(tempDir.getAbsolutePath(), "magnet:?xt=urn:btih:1c3d3743dcb8f1d438d71fdc3137e0b79aaa4209&dn=The+Incredible+Burt+Wonderstone+2013+HDRip+XviD+READNFO-playXD&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80");
 
         System.out.println("");
     }
