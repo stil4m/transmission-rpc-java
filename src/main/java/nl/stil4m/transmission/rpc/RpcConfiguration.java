@@ -1,8 +1,10 @@
 package nl.stil4m.transmission.rpc;
 
+import nl.stil4m.transmission.http.HostConfiguration;
+
 import java.net.URI;
 
-public class RpcConfiguration {
+public class RpcConfiguration implements HostConfiguration {
 
     private URI host;
 

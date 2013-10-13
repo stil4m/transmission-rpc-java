@@ -1,9 +1,13 @@
 package nl.stil4m.transmission.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import nl.stil4m.transmission.api.domain.ids.Ids;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class RemoveTorrentInfo {
 
     private Ids ids;
@@ -17,6 +21,9 @@ public class RemoveTorrentInfo {
     }
 
     public Object getIds() {
+        if (ids == null) {
+            return null;
+        }
         return ids.theObject();
     }
 

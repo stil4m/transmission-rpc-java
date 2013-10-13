@@ -1,18 +1,18 @@
 package nl.stil4m.transmission.rpc;
 
-public class RpcResponse<T extends Object> {
+public class RpcResponse<T> {
 
     private T arguments;
 
     private String result;
 
-    private Integer tag;
+    private Long tag;
 
-    public Integer getTag() {
+    public Long getTag() {
         return tag;
     }
 
-    public void setTag(Integer tag) {
+    public void setTag(Long tag) {
         this.tag = tag;
     }
 

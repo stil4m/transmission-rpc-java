@@ -1,19 +1,20 @@
 package nl.stil4m.transmission.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import nl.stil4m.transmission.api.domain.ids.Ids;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class TorrentGetRequestInfo {
 
     private Ids ids;
 
     private List<String> fields;
 
-    TorrentGetRequestInfo() {}
+    TorrentGetRequestInfo() {
+    }
 
     public TorrentGetRequestInfo(Ids ids, List<String> fields) {
         this.ids = ids;
@@ -21,10 +22,12 @@ public class TorrentGetRequestInfo {
     }
 
     public Object getIds() {
+        if (ids == null) {
+            return ids;
+        }
         return ids.theObject();
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<String> getFields() {
         return fields;
     }

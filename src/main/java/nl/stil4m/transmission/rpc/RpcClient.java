@@ -1,14 +1,16 @@
 package nl.stil4m.transmission.rpc;
 
-import org.apache.commons.io.IOUtils;
+import nl.stil4m.transmission.http.InvalidResponseStatus;
+import nl.stil4m.transmission.http.RequestExecutor;
+import nl.stil4m.transmission.http.RequestExecutorException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,48 +21,62 @@ public class RpcClient {
     private final Map<String, String> headers;
     private final DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
 
-    private final TagProvider tagProvider = new TagProvider();
+    private final RequestExecutor requestExecutor;
 
     public RpcClient(RpcConfiguration configuration, ObjectMapper objectMapper) {
+        this.requestExecutor = new RequestExecutor(objectMapper, configuration, defaultHttpClient);
         this.configuration = configuration;
         this.objectMapper = objectMapper;
-        headers = new HashMap<String, String>();
+        headers = new HashMap<>();
     }
 
     public <T, V> void execute(RpcCommand<T, V> command, Map<String, String> h) throws RpcException {
         try {
-            HttpPost httpPost = createPost();
-
-            for (Map.Entry<String, String> entry : h.entrySet()) {
-                httpPost.setHeader(entry.getKey(), entry.getValue());
-            }
-
-            RpcRequest<T> request = command.buildRequestPayload();
-            String value = objectMapper.writeValueAsString(request);
-            httpPost.setEntity(new StringEntity(value, "UTF-8"));
-
-            HttpResponse result = defaultHttpClient.execute(httpPost);
-
-            String responseString = IOUtils.toString(result.getEntity().getContent());
-            EntityUtils.consume(result.getEntity());
-
-            RpcResponse<V> response = objectMapper.readValue(responseString, new TypeReference<RpcResponse<V>>() {
-            });
-            Map args = (Map) response.getArguments();
-            String stringValue = objectMapper.writeValueAsString(args);
-            response.setArguments((V) objectMapper.readValue(stringValue, command.getArgumentsObject()));
-            command.setResponse(response);
-
-            if (!"success".equals(response.getResult())) {
-                throw new RpcException("Rpc Command Failed", response.getResult(), command);
-            }
-        } catch (Exception e) {
+            executeCommandInner(command, h);
+        } catch (RequestExecutorException | IOException e) {
             throw new RpcException(e);
+        } catch (InvalidResponseStatus e) {
+            setup();
+            try {
+                executeCommandInner(command, h);
+            } catch (Exception | RequestExecutorException | InvalidResponseStatus inner) {
+                throw new RpcException(inner);
+            }
         }
     }
 
-    public void setup() throws RpcException {
-        //NO-OP
+    private <T, V> void executeCommandInner(RpcCommand<T, V> command, Map<String, String> h) throws RequestExecutorException, InvalidResponseStatus, IOException, RpcException {
+        for (Map.Entry<String, String> entry : h.entrySet()) {
+            requestExecutor.removeAllHeaders();
+            requestExecutor.configureHeader(entry.getKey(), entry.getValue());
+        }
+
+        RpcRequest<T> request = command.buildRequestPayload();
+        RpcResponse<V> response = requestExecutor.execute(request, RpcResponse.class, 200);
+
+        Map args = (Map) response.getArguments();
+        String stringValue = objectMapper.writeValueAsString(args);
+        response.setArguments((V) objectMapper.readValue(stringValue, command.getArgumentsObject()));
+        if (!command.getTag().equals(response.getTag())) {
+            throw new RpcException(String.format("Invalid response tag. Expected %d, but got %d", command.getTag(), request.getTag()));
+        }
+        command.setResponse(response);
+
+        if (!"success".equals(response.getResult())) {
+            throw new RpcException("Rpc Command Failed: " + response.getResult(), command);
+        }
+    }
+
+    private void setup() throws RpcException {
+        try {
+            DefaultHttpClient defaultHttpClient = getClient();
+            HttpPost httpPost = createPost();
+            HttpResponse result = defaultHttpClient.execute(httpPost);
+            putSessionHeader(result);
+            EntityUtils.consume(result.getEntity());
+        } catch (IOException e) {
+            throw new RpcException(e);
+        }
     }
 
     protected HttpPost createPost() {
@@ -71,15 +87,11 @@ public class RpcClient {
         return defaultHttpClient;
     }
 
-    protected void executeWithHeaders(RpcCommand command) throws RpcException {
+    public void executeWithHeaders(RpcCommand command) throws RpcException {
         execute(command, headers);
     }
 
-    protected void putHeader(HttpResponse result) {
+    private void putSessionHeader(HttpResponse result) {
         headers.put("X-Transmission-Session-Id", result.getFirstHeader("X-Transmission-Session-Id").getValue());
-    }
-
-    protected Long nextTag() {
-        return tagProvider.nextTag();
     }
 }
