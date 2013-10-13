@@ -1,11 +1,11 @@
 package nl.stil4m.transmission;
 
 import nl.stil4m.transmission.api.TransmissionRpcClient;
-import nl.stil4m.transmission.api.commands.TorrentGetCommand;
 import nl.stil4m.transmission.api.domain.AddTorrentInfo;
 import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
 import nl.stil4m.transmission.api.domain.TorrentAction;
 import nl.stil4m.transmission.api.domain.TorrentInfo;
+import nl.stil4m.transmission.api.domain.TorrentInfoCollection;
 import nl.stil4m.transmission.api.domain.ids.NumberListIds;
 import nl.stil4m.transmission.api.domain.ids.OmittedIds;
 import nl.stil4m.transmission.api.domain.ids.ShaListIds;
@@ -31,7 +31,6 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
     private TransmissionRpcClient rpcClient;
 
     private TorrentInfo torrent;
-    private TorrentInfo secondTorrent;
 
     @Before
     public void before() throws RpcException, MalformedURLException, InterruptedException {
@@ -43,8 +42,8 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
         rpcClient = new TransmissionRpcClient(client);
         rpcClient.removeTorrent(new RemoveTorrentInfo(new OmittedIds(), true));
         pause();
-        TorrentGetCommand result = rpcClient.getAllTorrentsInfo();
-        assertThat(result.getResponse().getArguments().getTorrents().size(), is(0));
+        TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
+        assertThat(result.getTorrents().size(), is(0));
 
         AddTorrentInfo addTorrentInfo = new AddTorrentInfo();
         addTorrentInfo.setFilename("magnet:?xt=urn:btih:727665E0FE70263CD0B715758C2E8DB9A78554EC&dn=white+house+down+2013+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
@@ -58,10 +57,10 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
 
 
         result = rpcClient.getAllTorrentsInfo();
-        assertThat(result.getResponse().getArguments().getTorrents().size(), is(2));
+        assertThat(result.getTorrents().size(), is(2));
 
-        torrent = result.getResponse().getArguments().getTorrents().get(0);
-        secondTorrent = result.getResponse().getArguments().getTorrents().get(1);
+        torrent = result.getTorrents().get(0);
+        TorrentInfo secondTorrent = result.getTorrents().get(1);
         assertThat(torrent.getStatus(), is(TorrentStatus.PAUSED));
         assertThat(secondTorrent.getStatus(), is(TorrentStatus.PAUSED));
         pause();
@@ -77,11 +76,11 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
     public void testStartTorrentWithTorrentId() throws RpcException {
         rpcClient.doAction(new NumberListIds(torrent.getId()), TorrentAction.START);
 
-        TorrentGetCommand result = rpcClient.getAllTorrentsInfo();
-        TorrentInfo torrentInfo = result.getResponse().getArguments().getTorrents().get(0);
+        TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
+        TorrentInfo torrentInfo = result.getTorrents().get(0);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
 
-        torrentInfo = result.getResponse().getArguments().getTorrents().get(1);
+        torrentInfo = result.getTorrents().get(1);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
     }
 
@@ -89,11 +88,11 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
     public void testStartTorrentWithTorrentHash() throws RpcException {
         rpcClient.doAction(new ShaListIds(torrent.getHashString()), TorrentAction.START);
 
-        TorrentGetCommand result = rpcClient.getAllTorrentsInfo();
-        TorrentInfo torrentInfo = result.getResponse().getArguments().getTorrents().get(0);
+        TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
+        TorrentInfo torrentInfo = result.getTorrents().get(0);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
 
-        torrentInfo = result.getResponse().getArguments().getTorrents().get(1);
+        torrentInfo = result.getTorrents().get(1);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
     }
 
@@ -101,11 +100,11 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
     public void testStartAllTorrents() throws RpcException {
         rpcClient.doAction(new OmittedIds(), TorrentAction.START);
 
-        TorrentGetCommand result = rpcClient.getAllTorrentsInfo();
-        TorrentInfo torrentInfo = result.getResponse().getArguments().getTorrents().get(0);
+        TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
+        TorrentInfo torrentInfo = result.getTorrents().get(0);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
 
-        torrentInfo = result.getResponse().getArguments().getTorrents().get(1);
+        torrentInfo = result.getTorrents().get(1);
         assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
     }
 
