@@ -85,7 +85,9 @@ public class TorrentGetInfoIntegrationTest extends IntegrationTest {
         while (true) {
             TorrentInfoCollection result = rpcClient.getTorrentInfo(new TorrentGetRequestInfo(new OmittedIds(), Constants.TORRENT_INFO_FIELDS));
             TorrentInfo torrentInfo = result.getTorrents().get(0);
-            if (torrentInfo.getFiles() != null && torrentInfo.getFiles().size() > 0) {
+            TorrentInfo otherTorrentInfo = result.getTorrents().get(1);
+            if ((torrentInfo.getFiles() != null && torrentInfo.getFiles().size() > 0) ||
+                    otherTorrentInfo.getFiles() != null && otherTorrentInfo.getFiles().size() > 0) {
                 break;
             }
             pause();
