@@ -20,8 +20,8 @@ The project is available on a Maven repository. See: [https://github.com/stil4m/
 | torrent-verify       | <span style="color: green">YES</span>        |
 | torrent-reannounce   | <span style="color: green">YES</span>        |
 | torrent-set          | <span style="color: red">NO</span>           |
-| torrent-get          | <span style="color: orange">PARTIALLY</span> |
-| torrent-add          | <span style="color: orange">PARTIALLY</span> |
+| torrent-get          | <span style="color: green">YES</span>        |
+| torrent-add          | <span style="color: green">YES</span>        |
 | torrent-remove       | <span style="color: green">YES</span>        |
 | torrent-set-location | <span style="color: red">NO</span>           |
 | torrent-rename-path  | <span style="color: red">NO</span>           |
@@ -31,8 +31,8 @@ The project is available on a Maven repository. See: [https://github.com/stil4m/
 | blocklist-update     | <span style="color: red">NO</span>           |
 | port-test            | <span style="color: red">NO</span>           |
 | session-close        | <span style="color: red">NO</span>           |
-| queue-move-top       | <span style="color: red">NO</span>           |
-| queue-move-up        | <span style="color: red">NO</span>           |
-| queue-move-down      | <span style="color: red">NO</span>           |
-| queue-move-bottom    | <span style="color: red">NO</span>           |
+| queue-move-top       | <span style="color: green">YES</span>        |
+| queue-move-up        | <span style="color: green">YES</span>        |
+| queue-move-down      | <span style="color: green">YES</span>        |
+| queue-move-bottom    | <span style="color: green">YES</span>        |
 | free-space           | <span style="color: red">NO</span>           |

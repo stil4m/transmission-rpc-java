@@ -13,9 +13,6 @@ public class TorrentGetRequestInfo {
 
     private List<String> fields;
 
-    TorrentGetRequestInfo() {
-    }
-
     public TorrentGetRequestInfo(Ids ids, List<String> fields) {
         this.ids = ids;
         this.fields = fields;

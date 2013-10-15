@@ -1,6 +1,7 @@
 package nl.stil4m.transmission.api;
 
 import nl.stil4m.transmission.api.commands.AddTorrentCommand;
+import nl.stil4m.transmission.api.commands.QueueActionCommand;
 import nl.stil4m.transmission.api.commands.RemoveTorentCommand;
 import nl.stil4m.transmission.api.commands.SessionStatsCommand;
 import nl.stil4m.transmission.api.commands.TorrentActionCommand;
@@ -8,12 +9,14 @@ import nl.stil4m.transmission.api.commands.TorrentGetCommand;
 import nl.stil4m.transmission.api.domain.AddTorrentInfo;
 import nl.stil4m.transmission.api.domain.AddedTorrentInfo;
 import nl.stil4m.transmission.api.domain.Constants;
+import nl.stil4m.transmission.api.domain.QueueAction;
 import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
 import nl.stil4m.transmission.api.domain.SessionStats;
 import nl.stil4m.transmission.api.domain.TorrentAction;
 import nl.stil4m.transmission.api.domain.TorrentGetRequestInfo;
 import nl.stil4m.transmission.api.domain.TorrentInfoCollection;
 import nl.stil4m.transmission.api.domain.ids.Ids;
+import nl.stil4m.transmission.api.domain.ids.NumberListIds;
 import nl.stil4m.transmission.api.domain.ids.OmittedIds;
 import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcCommand;
@@ -70,6 +73,12 @@ public class TransmissionRpcClient {
     }
 
     public <T, V> void executeCommand(RpcCommand<T, V> command) throws RpcException {
+        rpcClient.executeWithHeaders(command);
+    }
+
+    public void doQueueAction(QueueAction queueAction, Ids ids) throws RpcException {
+        QueueActionCommand command = new QueueActionCommand(nextTag(), queueAction);
+        command.setRequestArguments(ids);
         rpcClient.executeWithHeaders(command);
     }
 }
