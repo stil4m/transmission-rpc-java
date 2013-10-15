@@ -7,6 +7,9 @@ Java implementation of the Transmission RPC API.
 ## Note
 This API is still under development and it needs lots of cleanup. When the code is cleaned up the API will be provided through a Maven repository.
 
+## Maven
+The project is available on a Maven repository. See: [https://github.com/stil4m/maven-repository](https://github.com/stil4m/maven-repository)
+
 ## Functionality
 
 | Command              | Implemented                                  |
