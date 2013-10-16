@@ -12,27 +12,27 @@ The project is available on a Maven repository. See: [https://github.com/stil4m/
 
 ## Functionality
 
-| Command              | Implemented                                  |
+| Command              | Not Implemented | Implemented|
 | -------------------- |:--------------------------------------------:|
-| torrent-start        | <span style="color: green">YES</span>        |
-| torrent-start-now    | <span style="color: green">YES</span>        |
-| torrent-stop         | <span style="color: green">YES</span>        |
-| torrent-verify       | <span style="color: green">YES</span>        |
-| torrent-reannounce   | <span style="color: green">YES</span>        |
-| torrent-set          | <span style="color: red">NO</span>           |
-| torrent-get          | <span style="color: green">YES</span>        |
-| torrent-add          | <span style="color: green">YES</span>        |
-| torrent-remove       | <span style="color: green">YES</span>        |
-| torrent-set-location | <span style="color: red">NO</span>           |
-| torrent-rename-path  | <span style="color: red">NO</span>           |
-| session-set          | <span style="color: red">NO</span>           |
-| session-get          | <span style="color: red">NO</span>           |
-| session-stats        | <span style="color: green">YES</span>        |
-| blocklist-update     | <span style="color: red">NO</span>           |
-| port-test            | <span style="color: red">NO</span>           |
-| session-close        | <span style="color: red">NO</span>           |
-| queue-move-top       | <span style="color: green">YES</span>        |
-| queue-move-up        | <span style="color: green">YES</span>        |
-| queue-move-down      | <span style="color: green">YES</span>        |
-| queue-move-bottom    | <span style="color: green">YES</span>        |
-| free-space           | <span style="color: red">NO</span>           |
+| torrent-start        |   | x |
+| torrent-start-now    |   | x |
+| torrent-stop         |   | x |
+| torrent-verify       |   | x |
+| torrent-reannounce   |   | x |
+| torrent-set          | x |   |
+| torrent-get          |   | x |
+| torrent-add          |   | x |
+| torrent-remove       |   | x |
+| torrent-set-location | x |   |
+| torrent-rename-path  | x |   |
+| session-set          | x |   |
+| session-get          | x |   |
+| session-stats        |   | x |
+| blocklist-update     | x |   |
+| port-test            | x |   |
+| session-close        | x |   |
+| queue-move-top       |   | x |
+| queue-move-up        |   | x |
+| queue-move-down      |   | x |
+| queue-move-bottom    |   | x |
+| free-space           | x |   |
