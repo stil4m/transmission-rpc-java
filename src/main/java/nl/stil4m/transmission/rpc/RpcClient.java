@@ -10,12 +10,17 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RpcClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RpcClient.class);
+    private static final Integer STATUS_OK = 200;
 
     private final RpcConfiguration configuration;
     private final ObjectMapper objectMapper;
@@ -37,6 +42,7 @@ public class RpcClient {
         } catch (RequestExecutorException | IOException e) {
             throw new RpcException(e);
         } catch (InvalidResponseStatus e) {
+            LOGGER.trace("Failed execute command. Now setup and try again", e);
             setup();
             try {
                 executeCommandInner(command, h);
@@ -53,7 +59,7 @@ public class RpcClient {
         }
 
         RpcRequest<T> request = command.buildRequestPayload();
-        RpcResponse<V> response = requestExecutor.execute(request, RpcResponse.class, 200);
+        RpcResponse<V> response = requestExecutor.execute(request, RpcResponse.class, STATUS_OK);
 
         Map args = (Map) response.getArguments();
         String stringValue = objectMapper.writeValueAsString(args);
@@ -70,7 +76,6 @@ public class RpcClient {
 
     private void setup() throws RpcException {
         try {
-            DefaultHttpClient defaultHttpClient = getClient();
             HttpPost httpPost = createPost();
             HttpResponse result = defaultHttpClient.execute(httpPost);
             putSessionHeader(result);

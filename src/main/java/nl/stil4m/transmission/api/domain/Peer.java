@@ -21,7 +21,7 @@ public class Peer {
     @JsonProperty("isUploadingTo")
     private Boolean isUploadingTo;
     @JsonProperty("isUTP")
-    private Boolean isUTP;
+    private Boolean utp;
     private Boolean peerIsChoked;
     private Boolean peerIsInterested;
     private Long port;
@@ -102,11 +102,11 @@ public class Peer {
     }
 
     public Boolean getUTP() {
-        return isUTP;
+        return utp;
     }
 
-    public void setUTP(Boolean UTP) {
-        isUTP = UTP;
+    public void setUTP(Boolean utp) {
+        this.utp = utp;
     }
 
     public Boolean getPeerIsChoked() {

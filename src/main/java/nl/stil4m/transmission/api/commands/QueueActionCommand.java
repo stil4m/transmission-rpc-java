@@ -9,20 +9,20 @@ import java.util.Map;
 
 public class QueueActionCommand extends RpcCommand<Ids, Object> {
 
-    private final Map<QueueAction, String> torrentActionMap = new HashMap<>();
-
-    {
-        torrentActionMap.put(QueueAction.MOVE_TOP, "queue-move-top");
-        torrentActionMap.put(QueueAction.MOVE_UP, "queue-move-up");
-        torrentActionMap.put(QueueAction.MOVE_DOWN, "queue-move-down");
-        torrentActionMap.put(QueueAction.MOVE_BOTTOM, "queue-move-bottom");
-    }
+    private static final Map<QueueAction, String> TORRENT_ACTION_MAP = new HashMap<QueueAction, String>() {
+        {
+            put(QueueAction.MOVE_TOP, "queue-move-top");
+            put(QueueAction.MOVE_UP, "queue-move-up");
+            put(QueueAction.MOVE_DOWN, "queue-move-down");
+            put(QueueAction.MOVE_BOTTOM, "queue-move-bottom");
+        }
+    };
 
     private final String method;
 
     public QueueActionCommand(Long tag, QueueAction action) {
         super(tag);
-        method = torrentActionMap.get(action);
+        method = TORRENT_ACTION_MAP.get(action);
     }
 
     @Override

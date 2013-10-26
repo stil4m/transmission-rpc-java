@@ -9,8 +9,23 @@
     <name>Transmission RPC Java</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jackson.version>2.2.3</jackson.version>
+
+        <surefire.version>2.12.4</surefire.version>
+        <failsafe.version>2.12.4</failsafe.version>
+        <integration-test.regex>(.*\.it\..*IntegrationTest.class)</integration-test.regex>
+        <jacoco.version>0.6.2.201302030002</jacoco.version>
+        <jacoco.agent.path>
+            ${user.home}/.m2/repository/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar
+        </jacoco.agent.path>
+        <jacoco.file.path>${user.dir}/target/coverage-reports</jacoco.file.path>
+        <sonar.jacoco.reportPath>${jacoco.file.path}/jacoco-unit.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${jacoco.file.path}/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     </properties>
+
     <dependencies>
 
         <!-- Testing -->
@@ -26,6 +41,12 @@
             <artifactId>mockito-all</artifactId>
             <version>1.9.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
         </dependency>
 
         <dependency>
@@ -100,6 +121,66 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*.class</include>
+                    </includes>
+                    <excludes>
+                        <exclude>%regex[${integration-test.regex}]</exclude>
+                    </excludes>
+                    <argLine>-Xmx128m
+                        -javaagent:${jacoco.agent.path}=destfile=${sonar.jacoco.reportPath},includes=${project.groupId}.*
+                    </argLine>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>${surefire.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>org.jacoco.agent</artifactId>
+                        <version>${jacoco.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <includes>
+                        <include>%regex[${integration-test.regex}]</include>
+                    </includes>
+                    <argLine>-XX:MaxPermSize=512m -Xmx128m
+                        -javaagent:${jacoco.agent.path}=destfile=${sonar.jacoco.itReportPath},includes=${project.groupId}.*
+                    </argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>failsafe-integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>failsafe-verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            
         </plugins>
 
         <extensions>

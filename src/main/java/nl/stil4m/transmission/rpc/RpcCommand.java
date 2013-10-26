@@ -2,8 +2,6 @@ package nl.stil4m.transmission.rpc;
 
 import java.lang.reflect.ParameterizedType;
 
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-
 public abstract class RpcCommand<T, V> {
 
     private final Class targetArgclass;
@@ -16,15 +14,14 @@ public abstract class RpcCommand<T, V> {
     private RpcRequest<T> request;
     private RpcResponse<V> response;
 
-
     public RpcCommand(Long tag) {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        if (genericSuperclass.getActualTypeArguments()[1] instanceof ParameterizedTypeImpl) {
-            this.targetArgclass = ((ParameterizedTypeImpl) genericSuperclass.getActualTypeArguments()[1]).getRawType();
+        if (genericSuperclass.getActualTypeArguments()[1] instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = ((ParameterizedType) genericSuperclass.getActualTypeArguments()[1]);
+            targetArgclass = (Class) parameterizedType.getRawType();
         } else {
             this.targetArgclass = ((Class) genericSuperclass.getActualTypeArguments()[1]);
         }
-
 
         this.tag = tag;
         request = new RpcRequest<T>();

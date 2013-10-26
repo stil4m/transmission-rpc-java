@@ -18,7 +18,6 @@ import nl.stil4m.transmission.api.domain.TorrentAction;
 import nl.stil4m.transmission.api.domain.TorrentGetRequestInfo;
 import nl.stil4m.transmission.api.domain.TorrentInfoCollection;
 import nl.stil4m.transmission.api.domain.ids.Ids;
-import nl.stil4m.transmission.api.domain.ids.NumberListIds;
 import nl.stil4m.transmission.api.domain.ids.OmittedIds;
 import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcCommand;

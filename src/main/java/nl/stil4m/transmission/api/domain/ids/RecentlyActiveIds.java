@@ -2,14 +2,14 @@ package nl.stil4m.transmission.api.domain.ids;
 
 public class RecentlyActiveIds extends Ids {
 
-    private final String ids = "recently-active";
+    private static final String IDS = "recently-active";
 
     public String getIds() {
-        return ids;
+        return IDS;
     }
 
     @Override
     public Object theObject() {
-        return ids;
+        return IDS;
     }
 }
