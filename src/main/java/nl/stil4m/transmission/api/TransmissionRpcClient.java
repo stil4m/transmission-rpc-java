@@ -4,11 +4,13 @@ import nl.stil4m.transmission.api.commands.AddTorrentCommand;
 import nl.stil4m.transmission.api.commands.QueueActionCommand;
 import nl.stil4m.transmission.api.commands.RemoveTorentCommand;
 import nl.stil4m.transmission.api.commands.SessionStatsCommand;
+import nl.stil4m.transmission.api.commands.TestPortCommand;
 import nl.stil4m.transmission.api.commands.TorrentActionCommand;
 import nl.stil4m.transmission.api.commands.TorrentGetCommand;
 import nl.stil4m.transmission.api.domain.AddTorrentInfo;
 import nl.stil4m.transmission.api.domain.AddedTorrentInfo;
 import nl.stil4m.transmission.api.domain.Constants;
+import nl.stil4m.transmission.api.domain.PortCheckResult;
 import nl.stil4m.transmission.api.domain.QueueAction;
 import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
 import nl.stil4m.transmission.api.domain.SessionStats;
@@ -80,5 +82,11 @@ public class TransmissionRpcClient {
         QueueActionCommand command = new QueueActionCommand(nextTag(), queueAction);
         command.setRequestArguments(ids);
         rpcClient.executeWithHeaders(command);
+    }
+
+    public PortCheckResult testPort() throws RpcException {
+        TestPortCommand command = new TestPortCommand(nextTag());
+        rpcClient.executeWithHeaders(command);
+        return command.getResponse().getArguments();
     }
 }

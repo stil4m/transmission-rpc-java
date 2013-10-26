@@ -1,17 +1,19 @@
 package nl.stil4m.transmission.api.domain;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddedTorrentInfo {
 
-    @JsonProperty("torrent-added")
-    private TorrentInfo torrentAdded;
+
+    private final TorrentInfo torrentAdded;
+
+    @JsonCreator
+    public AddedTorrentInfo(@JsonProperty("torrent-added") TorrentInfo torrentAdded) {
+        this.torrentAdded = torrentAdded;
+    }
 
     public TorrentInfo getTorrentAdded() {
         return torrentAdded;
-    }
-
-    public void setTorrentAdded(TorrentInfo torrentAdded) {
-        this.torrentAdded = torrentAdded;
     }
 }

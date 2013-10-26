@@ -1,5 +1,7 @@
 package nl.stil4m.transmission.rpc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import nl.stil4m.transmission.http.InvalidResponseStatus;
 import nl.stil4m.transmission.http.RequestExecutor;
 import nl.stil4m.transmission.http.RequestExecutorException;
@@ -8,7 +10,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;

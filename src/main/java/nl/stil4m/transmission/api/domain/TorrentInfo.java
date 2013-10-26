@@ -1,6 +1,7 @@
 package nl.stil4m.transmission.api.domain;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 

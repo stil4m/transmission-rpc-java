@@ -1,8 +1,8 @@
 package nl.stil4m.transmission.api.domain;
 
-import nl.stil4m.transmission.api.domain.ids.Ids;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import nl.stil4m.transmission.api.domain.ids.Ids;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package nl.stil4m.transmission.api.domain;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ public class AddTorrentInfo {
 
     @JsonProperty("files-unwanted")
     private List<String> filesUnwanted;
-
 
     @JsonProperty("priority-high")
     private List<String> priorityHigh;

@@ -1,5 +1,8 @@
 package nl.stil4m.transmission;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import nl.stil4m.transmission.api.TransmissionRpcClient;
 import nl.stil4m.transmission.api.domain.AddTorrentInfo;
 import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
@@ -14,8 +17,6 @@ import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcConfiguration;
 import nl.stil4m.transmission.rpc.RpcException;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
     @Before
     public void before() throws RpcException, MalformedURLException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         RpcConfiguration rpcConfiguration = new RpcConfiguration();
         rpcConfiguration.setHost(URI.create("http://localhost:9091/transmission/rpc"));
         RpcClient client = new RpcClient(rpcConfiguration, objectMapper);
@@ -46,15 +47,16 @@ public class TorrentStartIntegrationTest extends IntegrationTest {
         assertThat(result.getTorrents().size(), is(0));
 
         AddTorrentInfo addTorrentInfo = new AddTorrentInfo();
-        addTorrentInfo.setFilename("magnet:?xt=urn:btih:727665E0FE70263CD0B715758C2E8DB9A78554EC&dn=white+house+down+2013+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
+        addTorrentInfo
+                .setFilename("magnet:?xt=urn:btih:727665E0FE70263CD0B715758C2E8DB9A78554EC&dn=white+house+down+2013+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
         addTorrentInfo.setPaused(true);
         rpcClient.addTorrent(addTorrentInfo);
 
         addTorrentInfo = new AddTorrentInfo();
-        addTorrentInfo.setFilename("magnet:?xt=urn:btih:4F178D9782845F20714E5D8B5E05EF68A77E54F9&dn=pacific+rim+2013+1080p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
+        addTorrentInfo
+                .setFilename("magnet:?xt=urn:btih:4F178D9782845F20714E5D8B5E05EF68A77E54F9&dn=pacific+rim+2013+1080p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
         addTorrentInfo.setPaused(true);
         rpcClient.addTorrent(addTorrentInfo);
-
 
         result = rpcClient.getAllTorrentsInfo();
         assertThat(result.getTorrents().size(), is(2));
