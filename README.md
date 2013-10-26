@@ -13,7 +13,7 @@ The project is available on a Maven repository. See: [https://github.com/stil4m/
 ## Functionality
 
 | Command              | Not Implemented | Implemented|
-| -------------------- |:--------------------------------------------:|
+| -------------------- |:-:|:-:|
 | torrent-start        |   | x |
 | torrent-start-now    |   | x |
 | torrent-stop         |   | x |
