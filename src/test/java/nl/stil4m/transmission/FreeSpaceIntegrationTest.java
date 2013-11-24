@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.stil4m.transmission.api.TransmissionRpcClient;
+import nl.stil4m.transmission.api.commands.FreeSpaceResult;
 import nl.stil4m.transmission.rpc.RpcClient;
 import nl.stil4m.transmission.rpc.RpcConfiguration;
 import nl.stil4m.transmission.rpc.RpcException;
@@ -11,13 +12,17 @@ import nl.stil4m.transmission.rpc.RpcException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.AdditionalMatchers.gt;
+import static org.mockito.AdditionalMatchers.not;
 
-public class PortTestIntegrationTest extends IntegrationTest {
+public class FreeSpaceIntegrationTest extends IntegrationTest {
+
 
     private TransmissionRpcClient rpcClient;
 
@@ -33,7 +38,11 @@ public class PortTestIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    public void testPort() throws RpcException {
-        assertThat(rpcClient.testPort().getOpen(), is(true));
+    public void testFreeSpace() throws RpcException {
+        FreeSpaceResult result = rpcClient.freeSpace("/");
+        assertThat(result.getPath(), is("/"));
+
+        assertThat(result.getSizeBytes() > 0L, is(true));
     }
+
 }

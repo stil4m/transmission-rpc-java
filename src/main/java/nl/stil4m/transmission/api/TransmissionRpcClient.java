@@ -1,6 +1,9 @@
 package nl.stil4m.transmission.api;
 
 import nl.stil4m.transmission.api.commands.AddTorrentCommand;
+import nl.stil4m.transmission.api.commands.FreeSpaceCommand;
+import nl.stil4m.transmission.api.commands.FreeSpacePath;
+import nl.stil4m.transmission.api.commands.FreeSpaceResult;
 import nl.stil4m.transmission.api.commands.QueueActionCommand;
 import nl.stil4m.transmission.api.commands.RemoveTorentCommand;
 import nl.stil4m.transmission.api.commands.SessionStatsCommand;
@@ -87,5 +90,12 @@ public class TransmissionRpcClient {
         TestPortCommand command = new TestPortCommand(nextTag());
         rpcClient.executeWithHeaders(command);
         return command.getResponse().getArguments();
+    }
+
+    public FreeSpaceResult freeSpace(String path) throws RpcException {
+        FreeSpaceCommand freeSpaceCommand = new FreeSpaceCommand(nextTag());
+        freeSpaceCommand.setRequestArguments(new FreeSpacePath(path));
+        rpcClient.executeWithHeaders(freeSpaceCommand);
+        return freeSpaceCommand.getResponse().getArguments();
     }
 }
