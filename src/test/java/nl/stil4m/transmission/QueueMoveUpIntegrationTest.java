@@ -71,8 +71,8 @@ public class QueueMoveUpIntegrationTest extends IntegrationTest {
         secondTorrent = result.getTorrents().get(1);
         thirdTorrent = result.getTorrents().get(2);
 
-        assertThat(torrent.getStatus(), is(TorrentStatus.PAUSED));
-        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING));
+        assertThat(torrent.getStatus(), is(TorrentStatus.STOPPED.getValue()));
+        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
         pause();
     }
 
