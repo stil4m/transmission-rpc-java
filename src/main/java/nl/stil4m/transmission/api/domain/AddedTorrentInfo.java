@@ -6,14 +6,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AddedTorrentInfo {
 
 
-    private final TorrentInfo torrentAdded;
+    private final TorrentInfo torrentInfo;
 
     @JsonCreator
-    public AddedTorrentInfo(@JsonProperty("torrent-added") TorrentInfo torrentAdded) {
-        this.torrentAdded = torrentAdded;
+    public AddedTorrentInfo(@JsonProperty("torrent-added") TorrentInfo torrentAdded,
+                            @JsonProperty("torrent-duplicate") TorrentInfo torrentDuplicate) {
+        TorrentInfo newTorrentInfo = null;
+        if (torrentAdded != null) {
+            newTorrentInfo = torrentAdded;
+        }
+        if (torrentDuplicate != null) {
+            newTorrentInfo = torrentDuplicate;
+        }
+        this.torrentInfo = newTorrentInfo;
     }
 
-    public TorrentInfo getTorrentAdded() {
-        return torrentAdded;
+    public TorrentInfo getTorrentInfo() {
+        return torrentInfo;
     }
 }

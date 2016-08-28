@@ -56,7 +56,7 @@ public class AddTorrentIntegrationTest extends IntegrationTest {
                 .setFilename("magnet:?xt=urn:btih:727665E0FE70263CD0B715758C2E8DB9A78554EC&dn=white+house+down+2013+720p+brrip+x264+yify&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337");
         addTorrentInfo.setPaused(true);
         AddedTorrentInfo result = rpcClient.addTorrent(addTorrentInfo);
-        TorrentInfo info = result.getTorrentAdded();
+        TorrentInfo info = result.getTorrentInfo();
 
         assertThat(info, is(notNullValue()));
         assertThat(info.getId(), is(notNullValue()));
