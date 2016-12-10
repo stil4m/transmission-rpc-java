@@ -24,6 +24,7 @@
         <sonar.jacoco.reportPath>${jacoco.file.path}/jacoco-unit.exec</sonar.jacoco.reportPath>
         <sonar.jacoco.itReportPath>${jacoco.file.path}/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <lombok.version>1.16.12</lombok.version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
