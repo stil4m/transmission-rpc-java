@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.0</version>
     <groupId>nl.stil4m</groupId>
     <artifactId>transmission-rpc-java</artifactId>
     <name>Transmission RPC Java</name>
@@ -16,13 +16,6 @@
         <surefire.version>2.12.4</surefire.version>
         <failsafe.version>2.12.4</failsafe.version>
         <integration-test.regex>(.*\.it\..*IntegrationTest.class)</integration-test.regex>
-        <jacoco.version>0.6.2.201302030002</jacoco.version>
-        <jacoco.agent.path>
-            ${user.home}/.m2/repository/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar
-        </jacoco.agent.path>
-        <jacoco.file.path>${user.dir}/target/coverage-reports</jacoco.file.path>
-        <sonar.jacoco.reportPath>${jacoco.file.path}/jacoco-unit.exec</sonar.jacoco.reportPath>
-        <sonar.jacoco.itReportPath>${jacoco.file.path}/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <lombok.version>1.16.12</lombok.version>
     </properties>
@@ -140,9 +133,6 @@
                     <excludes>
                         <exclude>%regex[${integration-test.regex}]</exclude>
                     </excludes>
-                    <argLine>-Xmx128m
-                        -javaagent:${jacoco.agent.path}=destfile=${sonar.jacoco.reportPath},includes=${project.groupId}.*
-                    </argLine>
                 </configuration>
             </plugin>
 
@@ -156,19 +146,11 @@
                         <artifactId>surefire-junit47</artifactId>
                         <version>${surefire.version}</version>
                     </dependency>
-                    <dependency>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>org.jacoco.agent</artifactId>
-                        <version>${jacoco.version}</version>
-                    </dependency>
                 </dependencies>
                 <configuration>
                     <includes>
                         <include>%regex[${integration-test.regex}]</include>
                     </includes>
-                    <argLine>-XX:MaxPermSize=512m -Xmx128m
-                        -javaagent:${jacoco.agent.path}=destfile=${sonar.jacoco.itReportPath},includes=${project.groupId}.*
-                    </argLine>
                 </configuration>
                 <executions>
                     <execution>

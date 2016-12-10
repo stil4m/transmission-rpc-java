@@ -19,7 +19,7 @@ The project is available on a Maven repository. See: [https://github.com/stil4m/
 | torrent-stop         |   | x |
 | torrent-verify       |   | x |
 | torrent-reannounce   |   | x |
-| torrent-set          | x |   |
+| torrent-set          |   | x |
 | torrent-get          |   | x |
 | torrent-add          |   | x |
 | torrent-remove       |   | x |
