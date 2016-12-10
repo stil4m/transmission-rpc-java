@@ -7,6 +7,7 @@ import nl.stil4m.transmission.api.commands.FreeSpaceResult;
 import nl.stil4m.transmission.api.commands.QueueActionCommand;
 import nl.stil4m.transmission.api.commands.RemoveTorentCommand;
 import nl.stil4m.transmission.api.commands.SessionStatsCommand;
+import nl.stil4m.transmission.api.commands.SetTorrentCommand;
 import nl.stil4m.transmission.api.commands.TestPortCommand;
 import nl.stil4m.transmission.api.commands.TorrentActionCommand;
 import nl.stil4m.transmission.api.commands.TorrentGetCommand;
@@ -17,6 +18,7 @@ import nl.stil4m.transmission.api.domain.PortCheckResult;
 import nl.stil4m.transmission.api.domain.QueueAction;
 import nl.stil4m.transmission.api.domain.RemoveTorrentInfo;
 import nl.stil4m.transmission.api.domain.SessionStats;
+import nl.stil4m.transmission.api.domain.SetTorrentInfo;
 import nl.stil4m.transmission.api.domain.TorrentAction;
 import nl.stil4m.transmission.api.domain.TorrentGetRequestInfo;
 import nl.stil4m.transmission.api.domain.TorrentInfoCollection;
@@ -58,6 +60,12 @@ public class TransmissionRpcClient {
         addTorrentCommand.setRequestArguments(addTorrentInfo);
         executeCommand(addTorrentCommand);
         return addTorrentCommand.getResponse().getArguments();
+    }
+
+    public void setTorrent(SetTorrentInfo setTorrentInfo) throws RpcException {
+        SetTorrentCommand setTorrentCommand = new SetTorrentCommand(nextTag());
+        setTorrentCommand.setRequestArguments(setTorrentInfo);
+        executeCommand(setTorrentCommand);
     }
 
     public void removeTorrent(RemoveTorrentInfo removeTorrentInfo) throws RpcException {
