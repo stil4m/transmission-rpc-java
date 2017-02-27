@@ -8,7 +8,7 @@ public class AddedTorrentInfo {
 
     private final TorrentInfo torrentInfo;
 
-    private boolean isDuplicate = false;
+    private final boolean isDuplicate;
 
     @JsonCreator
     public AddedTorrentInfo(@JsonProperty("torrent-added") TorrentInfo torrentAdded,
@@ -20,6 +20,8 @@ public class AddedTorrentInfo {
         if (torrentDuplicate != null) {
             isDuplicate = true;
             newTorrentInfo = torrentDuplicate;
+        } else {
+            isDuplicate = false;
         }
         this.torrentInfo = newTorrentInfo;
     }
