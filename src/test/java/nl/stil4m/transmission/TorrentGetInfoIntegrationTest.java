@@ -60,8 +60,8 @@ public class TorrentGetInfoIntegrationTest extends IntegrationTest {
 
         TorrentInfo torrent = result.getTorrents().get(0);
         TorrentInfo secondTorrent = result.getTorrents().get(1);
-        assertThat(torrent.getStatus(), is(TorrentStatus.DOWNLOADING));
-        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING));
+        assertThat(torrent.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
+        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
         pause();
     }
 

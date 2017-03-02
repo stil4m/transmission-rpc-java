@@ -63,8 +63,8 @@ public class TorrentStopIntegrationTest extends IntegrationTest {
 
         torrent = result.getTorrents().get(0);
         TorrentInfo secondTorrent = result.getTorrents().get(1);
-        assertThat(torrent.getStatus(), is(TorrentStatus.DOWNLOADING));
-        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING));
+        assertThat(torrent.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
+        assertThat(secondTorrent.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
         pause();
     }
 
@@ -81,10 +81,10 @@ public class TorrentStopIntegrationTest extends IntegrationTest {
 
         TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
         TorrentInfo torrentInfo = result.getTorrents().get(0);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.STOPPED.getValue()));
 
         torrentInfo = result.getTorrents().get(1);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
     }
 
     @Test
@@ -94,10 +94,10 @@ public class TorrentStopIntegrationTest extends IntegrationTest {
 
         TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
         TorrentInfo torrentInfo = result.getTorrents().get(0);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.STOPPED.getValue()));
 
         torrentInfo = result.getTorrents().get(1);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.DOWNLOADING.getValue()));
     }
 
     @Test
@@ -107,10 +107,10 @@ public class TorrentStopIntegrationTest extends IntegrationTest {
 
         TorrentInfoCollection result = rpcClient.getAllTorrentsInfo();
         TorrentInfo torrentInfo = result.getTorrents().get(0);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.STOPPED.getValue()));
 
         torrentInfo = result.getTorrents().get(1);
-        assertThat(torrentInfo.getStatus(), is(TorrentStatus.PAUSED));
+        assertThat(torrentInfo.getStatus(), is(TorrentStatus.STOPPED.getValue()));
     }
 
 }
